@@ -7,10 +7,10 @@ class MessageInfo {
     String status;
 
     static constraints = {
-        phones(nullable:false,maxsize:12*1000);
-        msgtext(nullable:false,maxsize:134*3);
+        phones(nullable:false,maxSize:(12*100+2));
+        msgtext(nullable:false,maxSize:134*3);
         sendTime(nullable:false);
-        status(nullable:false,maxsize:256);
+        status(nullable:false,maxSize:256);
     }
 
     @Override

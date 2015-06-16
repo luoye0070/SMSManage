@@ -1,8 +1,14 @@
+import org.springframework.core.io.ClassPathResource
+import org.springframework.core.io.support.PropertiesLoaderUtils
+
+def propertiesdef=PropertiesLoaderUtils.loadProperties(new ClassPathResource("some.properties"));
 dataSource {
     pooled = true
-    driverClassName = "org.h2.Driver"
+    //driverClassName = "org.h2.Driver"
+    driverClassName = "com.mysql.jdbc.Driver"
     username = "sa"
     password = ""
+    dialect = "org.hibernate.dialect.MySQLDialect"
 }
 hibernate {
     cache.use_second_level_cache = true
@@ -13,8 +19,10 @@ hibernate {
 environments {
     development {
         dataSource {
-            dbCreate = "create-drop" // one of 'create', 'create-drop', 'update', 'validate', ''
-            url = "jdbc:h2:mem:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
+            username = propertiesdef.getProperty("username");//"ljsj"
+            password = propertiesdef.getProperty("password");
+            dbCreate = "update" // one of 'create', 'create-drop', 'update', 'validate', ''
+            url = propertiesdef.getProperty("url");
         }
     }
     test {
@@ -25,8 +33,10 @@ environments {
     }
     production {
         dataSource {
-            dbCreate = "update"
-            url = "jdbc:h2:prodDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
+            username = propertiesdef.getProperty("username");//"ljsj"
+            password = propertiesdef.getProperty("password");
+            dbCreate = "update" // one of 'create', 'create-drop', 'update', 'validate', ''
+            url = propertiesdef.getProperty("url");
             pooled = true
             properties {
                maxActive = -1
